@@ -85,7 +85,7 @@ def get_closest_waypoint(gps_position, scene_layout):
             closest_way_id = waypoint_id
             min_dist = current_waypoint_distance
 
-    return closest_way_id
+    return closest_way_id, min_dist
 
 
 class KeyboardControl(object):
