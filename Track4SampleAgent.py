@@ -74,6 +74,7 @@ def distance_vehicle(waypoint, vehicle_position):
 
     return math.sqrt(dx * dx + dy * dy + dz*dz)
 
+
 def get_closest_waypoint(gps_position, scene_layout):
 
     min_dist = 10000
@@ -145,8 +146,8 @@ class HumanTextInterface(object):
 
         input_data = self._parent.sensor_interface.get_data()
         # agent is engaged. Take the closest waypoint.
-        closest_waypoint, distance = get_closest_waypoint(input_data['GPS'],
-                                                          input_data['scene_layout'])
+        closest_waypoint, distance = get_closest_waypoint(input_data['GPS'][1],
+                                                          input_data['scene_layout'][1])
         print ("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
         # We navigate now iterating from this
         print (input_data['scene_layout'])
@@ -166,8 +167,6 @@ class HumanTextInterface(object):
 
             # Just keep refreshing the screen
             # Then we print how this relates with all the other positions
-
-
 
         pygame.quit()
 
