@@ -2,7 +2,8 @@ import scipy.misc
 import carla
 from srunner.challenge.autoagents.autonomous_agent import AutonomousAgent
 from threading import Thread
-
+import math
+import sys
 
 try:
     import pygame
@@ -38,6 +39,54 @@ import time
 
 from srunner.challenge.autoagents.autonomous_agent import AutonomousAgent
 
+
+
+
+
+if sys.version_info >= (3, 3):
+
+    import shutil
+
+    def print_over_same_line(text):
+        terminal_width = shutil.get_terminal_size((80, 20)).columns
+        empty_space = max(0, terminal_width - len(text))
+        sys.stdout.write('\r' + text + empty_space * ' ')
+        sys.stdout.flush()
+
+else:
+
+    # Workaround for older Python versions.
+    def print_over_same_line(text):
+        line_length = max(print_over_same_line.last_line_length, len(text))
+        empty_space = max(0, line_length - len(text))
+        sys.stdout.write('\r' + text + empty_space * ' ')
+        sys.stdout.flush()
+        print_over_same_line.last_line_length = line_length
+    print_over_same_line.last_line_length = 0
+
+
+
+def distance_vehicle(waypoint, vehicle_position):
+
+    dx = waypoint['lat'] - vehicle_position[0]
+    dy = waypoint['lon'] - vehicle_position[1]
+    dz = waypoint['z'] - vehicle_position[2]
+
+    return math.sqrt(dx * dx + dy * dy + dz*dz)
+
+def get_closest_waypoint(gps_position, scene_layout):
+
+    min_dist = 10000
+    closest_way_id = None
+    for waypoint_id, waypoint_data in scene_layout.items():
+        current_waypoint_distance = distance_vehicle(waypoint_data['position'], gps_position)
+        if current_waypoint_distance < min_dist:
+            closest_way_id = waypoint_id
+            min_dist = current_waypoint_distance
+
+    return closest_way_id
+
+
 class KeyboardControl(object):
     def __init__(self):
         self._control = carla.VehicleControl()
@@ -55,7 +104,7 @@ class KeyboardControl(object):
             control.hand_brake = self._control.hand_brake
 
     def _parse_vehicle_keys(self, keys, milliseconds):
-        self._control.throttle = 0.6 if keys[K_UP] or keys[K_w] else 0.0
+        self._control.throttle = 0.7 if keys[K_UP] or keys[K_w] else 0.0
         steer_increment = 15.0 * 5e-4 * milliseconds
         if keys[K_LEFT] or keys[K_a]:
             self._steer_cache -= steer_increment
@@ -93,7 +142,16 @@ class HumanTextInterface(object):
             time.sleep(0.5)
 
         controller = KeyboardControl()
+
+        input_data = self._parent.sensor_interface.get_data()
+        # agent is engaged. Take the closest waypoint.
+        closest_waypoint, distance = get_closest_waypoint(input_data['GPS'],
+                                                          input_data['scene_layout'])
+        print ("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
+        # We navigate now iterating from this
+        print (input_data['scene_layout'])
         while not self.quit:
+
             self._clock.tick_busy_loop(20)
             controller.parse_events(self._parent.current_control, self._clock)
             # Process events
@@ -106,6 +164,7 @@ class HumanTextInterface(object):
 
             print (input_data['GPS'])
 
+            # Just keep refreshing the screen
             # Then we print how this relates with all the other positions
 
 
