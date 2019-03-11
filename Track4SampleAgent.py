@@ -68,9 +68,9 @@ else:
 
 def distance_vehicle(waypoint, vehicle_position):
 
-    dx = waypoint['lat'] - vehicle_position[0]
-    dy = waypoint['lon'] - vehicle_position[1]
-    dz = waypoint['z'] - vehicle_position[2]
+    dx = waypoint[0] - vehicle_position[0]
+    dy = waypoint[1] - vehicle_position[1]
+    dz = waypoint[2] - vehicle_position[2]
 
     return math.sqrt(dx * dx + dy * dy + dz*dz)
 
@@ -80,7 +80,6 @@ def get_closest_waypoint(gps_position, scene_layout):
     min_dist = 10000
     closest_way_id = None
     for waypoint_id, waypoint_data in scene_layout.items():
-        print (waypoint_id, waypoint_data)
         current_waypoint_distance = distance_vehicle(waypoint_data['position'], gps_position)
         if current_waypoint_distance < min_dist:
             closest_way_id = waypoint_id
