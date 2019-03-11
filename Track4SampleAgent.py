@@ -80,6 +80,7 @@ def get_closest_waypoint(gps_position, scene_layout):
     min_dist = 10000
     closest_way_id = None
     for waypoint_id, waypoint_data in scene_layout.items():
+        print (waypoint_id, waypoint_data)
         current_waypoint_distance = distance_vehicle(waypoint_data['position'], gps_position)
         if current_waypoint_distance < min_dist:
             closest_way_id = waypoint_id
@@ -146,11 +147,12 @@ class HumanTextInterface(object):
 
         input_data = self._parent.sensor_interface.get_data()
         # agent is engaged. Take the closest waypoint.
+
+        print (input_data['scene_layout'])
         closest_waypoint, distance = get_closest_waypoint(input_data['GPS'][1],
                                                           input_data['scene_layout'][1])
         print ("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
         # We navigate now iterating from this
-        print (input_data['scene_layout'])
         while not self.quit:
 
             self._clock.tick_busy_loop(20)
