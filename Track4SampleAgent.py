@@ -1,6 +1,8 @@
 import scipy.misc
 import carla
 from srunner.challenge.autoagents.autonomous_agent import AutonomousAgent
+from threading import Thread
+
 
 try:
     import pygame
@@ -68,7 +70,7 @@ class KeyboardControl(object):
         self._control.hand_brake = keys[K_SPACE]
 
 
-class HumanTextInterface():
+class HumanTextInterface(object):
     """
     Class to control a vehicle manually for debugging purposes
     """
@@ -96,7 +98,6 @@ class HumanTextInterface():
             controller.parse_events(self._parent.current_control, self._clock)
             # Process events
             pygame.event.pump()  # to get all the keyboard control
-
             # process sensor data
             input_data = self._parent.sensor_interface.get_data()
 
@@ -117,13 +118,21 @@ class Track4SampleAgent(AutonomousAgent):
     THis is a human controlled agent with track 4 access for testing
     """
     def setup(self, path_to_conf_file):
-        pass
+        self.agent_engaged = False
+        self.current_control = carla.VehicleControl()
+        self.current_control.steer = 0.0
+        self.current_control.throttle = 1.0
+        self.current_control.brake = 0.0
+        self.current_control.hand_brake = False
+        self._hic = HumanTextInterface(self)
+        self._thread = Thread(target=self._hic.run)
+        self._thread.start()
+
 
     def sensors(self):
 
         """
         Define the sensor suite required by the agent
-
         :return: a list containing the required sensors in the following format:
 
         """
@@ -136,8 +145,7 @@ class Track4SampleAgent(AutonomousAgent):
 
         return sensors
 
-    def run_step(self, input_data):
-
+    def run_step(self):
         self.agent_engaged = True
         return self.current_control
 
