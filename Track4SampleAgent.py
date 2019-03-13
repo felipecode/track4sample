@@ -147,10 +147,9 @@ class HumanTextInterface(object):
         input_data = self._parent.sensor_interface.get_data()
         # agent is engaged. Take the closest waypoint.
 
-        print (input_data['scene_layout'])
         closest_waypoint, distance = get_closest_waypoint(input_data['GPS'][1],
                                                           input_data['scene_layout'][1])
-        print ("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
+
         # We navigate now iterating from this
         while not self.quit:
 
@@ -163,7 +162,7 @@ class HumanTextInterface(object):
 
             # merge your position with the input data and inform the client
             # Your position
-
+            print("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
             print (input_data['GPS'])
 
             # Just keep refreshing the screen
