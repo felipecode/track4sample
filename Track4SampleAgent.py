@@ -204,6 +204,7 @@ class Track4SampleAgent(AutonomousAgent):
 
     def run_step(self, _):
         self.agent_engaged = True
+        print (" ENgaged !")
         return self.current_control
 
 
