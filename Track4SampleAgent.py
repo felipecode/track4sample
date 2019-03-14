@@ -41,8 +41,6 @@ from srunner.challenge.autoagents.autonomous_agent import AutonomousAgent
 
 
 
-
-
 if sys.version_info >= (3, 3):
 
     import shutil
@@ -148,8 +146,6 @@ class HumanTextInterface(object):
         closest_waypoint, distance = get_closest_waypoint(input_data['GPS'][1],
                                                           input_data['scene_layout'][1])
 
-        print (" Running Agent ")
-
         # We navigate now iterating from this
         while not self.quit:
 
@@ -165,7 +161,7 @@ class HumanTextInterface(object):
             print("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
 
             #print (input_data['object_finder'])
-            print (input_data['GPS'])
+            #print (input_data['GPS'])
 
             # Just keep refreshing the screen
             # Then we print how this relates with all the other positions
@@ -207,3 +203,6 @@ class Track4SampleAgent(AutonomousAgent):
         return self.current_control
 
 
+    def destroy(self):
+        self._hic.quit = True
+        self._thread.join()
