@@ -164,7 +164,7 @@ class HumanTextInterface(object):
             # Your position
             #print("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
 
-            print (input_data['object_finder'])
+            #print (input_data['object_finder'])
             print (input_data['GPS'])
 
             # Just keep refreshing the screen
@@ -196,8 +196,8 @@ class Track4SampleAgent(AutonomousAgent):
         """
         sensors = [
                    {'type': 'sensor.other.gnss', 'x': 0.7, 'y': -0.4, 'z': 1.60, 'id': 'GPS'},
-                   #{'type': 'sensor.scene_layout', 'id': 'scene_layout'},
-                   {'type': 'sensor.object_finder', 'reading_frequency': 20, 'id': 'object_finder'}
+                   {'type': 'sensor.scene_layout', 'id': 'scene_layout'}
+                   #{'type': 'sensor.object_finder', 'reading_frequency': 20, 'id': 'object_finder'}
                   ]
 
         return sensors
