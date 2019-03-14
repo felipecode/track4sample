@@ -67,7 +67,6 @@ else:
 
 
 def distance_vehicle(waypoint, vehicle_position):
-
     dx = waypoint[0] - vehicle_position[0]
     dy = waypoint[1] - vehicle_position[1]
     dz = waypoint[2] - vehicle_position[2]
@@ -76,7 +75,6 @@ def distance_vehicle(waypoint, vehicle_position):
 
 
 def get_closest_waypoint(gps_position, scene_layout):
-
     min_dist = 10000
     closest_way_id = None
     for waypoint_id, waypoint_data in scene_layout.items():
@@ -149,6 +147,8 @@ class HumanTextInterface(object):
 
         closest_waypoint, distance = get_closest_waypoint(input_data['GPS'][1],
                                                           input_data['scene_layout'][1])
+
+        print (" Running Agent ")
 
         # We navigate now iterating from this
         while not self.quit:
