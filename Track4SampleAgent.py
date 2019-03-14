@@ -145,8 +145,8 @@ class HumanTextInterface(object):
         input_data = self._parent.sensor_interface.get_data()
         # agent is engaged. Take the closest waypoint.
 
-        closest_waypoint, distance = get_closest_waypoint(input_data['GPS'][1],
-                                                          input_data['scene_layout'][1])
+        #closest_waypoint, distance = get_closest_waypoint(input_data['GPS'][1],
+        #                                                  input_data['scene_layout'][1])
 
         print (" Running Agent ")
 
@@ -162,7 +162,7 @@ class HumanTextInterface(object):
 
             # merge your position with the input data and inform the client
             # Your position
-            print("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
+            #print("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
             print (input_data['GPS'])
 
             # Just keep refreshing the screen
@@ -194,8 +194,8 @@ class Track4SampleAgent(AutonomousAgent):
         """
         sensors = [
                    {'type': 'sensor.other.gnss', 'x': 0.7, 'y': -0.4, 'z': 1.60, 'id': 'GPS'},
-                   {'type': 'sensor.scene_layout', 'id': 'scene_layout'}
-                   #{'type': 'sensor.object_finder', 'reading_frequency': 20, 'id': 'object_finder'}
+                   #{'type': 'sensor.scene_layout', 'id': 'scene_layout'},
+                   {'type': 'sensor.object_finder', 'reading_frequency': 20, 'id': 'object_finder'}
                   ]
 
         return sensors
