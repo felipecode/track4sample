@@ -163,6 +163,8 @@ class HumanTextInterface(object):
             # merge your position with the input data and inform the client
             # Your position
             #print("Closest waypoint id is ", closest_waypoint, ' Dist ', distance)
+
+            print (input_data['object_finder'])
             print (input_data['GPS'])
 
             # Just keep refreshing the screen
