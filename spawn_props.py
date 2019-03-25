@@ -77,7 +77,6 @@ def main():
             vehicle = world.try_spawn_actor(blueprint, transform)
             if vehicle is not None:
                 actor_list.append(vehicle)
-                vehicle.set_autopilot()
                 print('spawned %r at %s' % (vehicle.type_id, transform.location))
                 return True
             return False
